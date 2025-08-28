@@ -15,7 +15,7 @@ export default function BrowserWindow(props) {
         <span className="dot" style={{background: "#5AC05A"}}></span>
         </div>
         <div className="column middle">
-          <input type="text" value={url} />
+          <input type="text" value={url} readOnly />
         </div>
         <div className="column right">
           <div style={{float: "right"}}>

@@ -51,7 +51,7 @@ You can find more information about how to construct a query path in the [Search
 [
   {
     $search: {
-      index: "fulltextsearch",
+      index: "fulltextsearch_dynamic",
       text: {
         query: "cooking",
         path: ["title"]
@@ -65,3 +65,79 @@ You can find more information about how to construct a query path in the [Search
 </details>
 
 You will see the same results but ordered differently. This has to do with relevancy, but we'll cover that in a later section.
+
+## Try it Yourself!
+
+Now you can test the search functionality directly in this documentation! The interactive editor below connects to a MongoDB Atlas cluster with the sample library data.
+
+<InteractiveExercise
+  title="Basic Text Search"
+  description="Try searching for books about cooking using a regular expression query while the search index builds."
+  initialQuery={`[
+  {
+    $search: {
+      index: "fulltextsearch_dynamic",
+      text: {
+        query: "cooking",
+        path: {
+          "wildcard": "*"
+        }
+      }
+    }
+  }
+]`}
+  expectedResult={{
+    type: "minCount",
+    value: 1
+  }}
+  hint="Make sure to use the correct index name and search for 'cooking' in all fields using path: '*'"
+  solution={`[
+  {
+    $search: {
+      index: "fulltextsearch_dynamic",
+      text: {
+        query: "cooking",
+        path: {
+          "wildcard": "*"
+        }
+      }
+    }
+  }
+]`}
+  collection="books"
+/>
+
+### Search Only in Title Field
+
+<InteractiveExercise
+  title="Title-Only Search"
+  description="Now try the same search, but limit it to only search in the title field."
+  initialQuery={`[
+  {
+    $search: {
+      index: "fulltextsearch_dynamic",
+      text: {
+        query: "cooking",
+        path: ["title"]
+      }
+    }
+  }
+]`}
+  expectedResult={{
+    type: "contains",
+    fields: ["title"]
+  }}
+  hint="Change the path from '*' to ['title'] to search only in the title field"
+  solution={`[
+  {
+    $search: {
+      index: "fulltextsearch_dynamic",
+      text: {
+        query: "cooking",
+        path: ["title"]
+      }
+    }
+  }
+]`}
+  collection="books"
+/>
